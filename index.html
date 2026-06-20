@@ -496,7 +496,7 @@ body::after {
   <div class="container">
     <div class="reveal">
       <div class="section-label">// مهارت‌ها</div>
-      <h2 class="section-title">مهارت ها</h2>
+      <h2 class="section-title">آنچه بلدم</h2>
       <div class="section-line"></div>
     </div>
     <div class="skills-grid">
@@ -1072,7 +1072,7 @@ function toggleMusic() {
   const sub  = document.getElementById('mp-sub');
   if (!isPlaying) {
     startMusic();
-    btn.textContent = '||';
+    btn.textContent = '⏸';
     wave.classList.add('playing');
     sub.textContent = 'Deep Signal · Theta';
   } else {
@@ -1082,6 +1082,33 @@ function toggleMusic() {
     sub.textContent = 'برای پخش کلیک کن';
   }
 }
+
+/* ── MUSIC PLAYER FOOTER AVOIDANCE ── */
+(function() {
+  const player = document.getElementById('music-player');
+  const footer = document.querySelector('footer');
+  const GAP = 12; // px gap between player and footer
+
+  function adjust() {
+    const footerTop = footer.getBoundingClientRect().top;
+    const vpH = window.innerHeight;
+    const playerH = player.offsetHeight;
+    const defaultBottom = 24;
+
+    if (footerTop < vpH) {
+      // Footer is visible — push player up
+      const overlap = vpH - footerTop;
+      const newBottom = defaultBottom + overlap + GAP;
+      player.style.bottom = newBottom + 'px';
+    } else {
+      player.style.bottom = defaultBottom + 'px';
+    }
+  }
+
+  window.addEventListener('scroll', adjust, { passive: true });
+  window.addEventListener('resize', adjust, { passive: true });
+  adjust();
+})();
 
 /* ── SMOOTH SCROLL ── */
 function scrollTo(id) {
